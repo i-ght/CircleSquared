@@ -46,8 +46,8 @@ function changePhase(phase) {
   for (let i = 0; i < resolution; i++) {
     for (let j = 0; j < resolution; j++) {
 
-      const x = center - i;
-      const y = center - j;
+      const x = i - center ;
+      const y = j - center;
       const a = sqr(x);
       const b = sqr(y);
       const c = Math.floor(coef * (a + b));
