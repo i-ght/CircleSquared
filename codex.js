@@ -3,7 +3,6 @@ function acquireGfxCtx() {
   const canvas = document.getElementById("canvas0");
   /** @type {CanvasRenderingContext2D} */
   const ctx = canvas.getContext("2d");
-
   return [canvas, ctx];
 }
 
@@ -17,8 +16,8 @@ function fillSpace(
 ) {
   gfx.save();
   gfx.fillStyle = color;
-  gfx.clearRect(x, y, unit, unit);
-  gfx.fillRect(x, y, unit, unit);
+  gfx.clearRect(x * unit, y * unit, unit, unit);
+  gfx.fillRect(x * unit, y * unit, unit, unit);
   gfx.restore();
 }
 
@@ -36,8 +35,8 @@ function changePhase(phase) {
 
     for i <-1 to 100
       for j <-1 to 100
-        x <- corna + (side Xi/100)
-        y <- cornb + (side Xj/100)
+        x <- corna + (side * i/100)
+        y <- cornb + (side * j/100)
         z <- x² + y²
         c <- int(z)
         if c is even, then plot (i,j)
@@ -47,16 +46,18 @@ function changePhase(phase) {
   for (let i = 0; i < resolution; i++) {
     for (let j = 0; j < resolution; j++) {
 
-      const x = sqr(i - center);
-      const y = sqr(j - center);
-      const z = Math.floor(coef * (x + y));
-
-      const color = colors[z % colors.length];
+      const x = center - i;
+      const y = center - j;
+      const a = sqr(x);
+      const b = sqr(y);
+      const c = Math.floor(coef * (a + b));
+      const d = c % colors.length;
+      const color = colors[d];
 
       fillSpace(
         gfx,
-        i * unit,
-        j * unit,
+        i,
+        j,
         unit,
         color
       );
@@ -72,11 +73,11 @@ function changePhase(phase) {
 }
 
 function codex() {
-  const [_, gfx] = acquireGfxCtx();
-  const resolution = 200;
+  const [canvas, gfx] = acquireGfxCtx();
+  const unit = 4;
+  const resolution = canvas.width / unit;
   const coef = 0.001;
   const colors = ["black", "whitesmoke", "red", "yellow"];
-  const unit = 4;
   const center = Math.floor(resolution / 2);
   const speed = 0.001;
 

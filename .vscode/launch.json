@@ -10,7 +10,7 @@
         "request": "launch",
         "reAttach": true,
         "file": "${workspaceFolder}/codex.html",
-        "tmpDir": "/home/zyklon/tmp"
+        "tmpDir": "/home/zyklon/tmp",
       }
     ]
   }
